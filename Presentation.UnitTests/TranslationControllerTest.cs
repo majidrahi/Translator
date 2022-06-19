@@ -118,7 +118,7 @@ namespace Presentation.UnitTests
             var mockService = new Mock<ILeetTranslationService>();
 
             var controller = new TranslationController(mockService.Object);
-            var result = controller.LeetSpeakList("","");
+            var result = controller.LeetSpeakList(""," ");
 
             // Assert
             Assert.IsType<RedirectToActionResult>(result);
