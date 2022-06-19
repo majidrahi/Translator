@@ -113,6 +113,20 @@ namespace Presentation.UnitTests
         }
 
         [Fact]
+        public void LeetSpeakListPost_RedirectsToLeetSpeakList_WithNoRouteValueIfsearchQueryIsEmpty()
+        {
+            var mockService = new Mock<ILeetTranslationService>();
+
+            var controller = new TranslationController(mockService.Object);
+            var result = controller.LeetSpeakList("","");
+
+            // Assert
+            Assert.IsType<RedirectToActionResult>(result);
+            var redirectResult = result as RedirectToActionResult;
+            Assert.Null(redirectResult?.RouteValues);
+        }
+
+        [Fact]
         public async Task LeetTranslate_ReturnsTranslationJsonResultWithAModelOfTranslationResult()
         {
             var mockService = new Mock<ILeetTranslationService>();
