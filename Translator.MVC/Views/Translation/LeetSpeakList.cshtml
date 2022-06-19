@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Translator.Application.ViewModels.TranslationViewModel>
+
+@{
+    ViewData["Title"] = "Translations List";
+}
+
+<h1>Translations List</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="LeetSpeak">New Translation</a>
+</p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    <br />
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col col-md-4">
+            <div class="form-group">
+                <select id="searchOption" name="searchOption" class="form-control">
+                    <option value="@Html.DisplayNameFor(model => model.SourceText).Replace(" ","")" data-value-type="text">@Html.DisplayNameFor(model => model.SourceText)</option>
+                </select>
+                <input class="form-control" id="inpListSearch" type="text" placeholder="Search expression..." name="searchQuery" />
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+    <script>
+        var optionIndex = '@ViewBag.searchIndex';
+        var searchQuery = '@ViewBag.searchQuery';
+        if (optionIndex != '' && searchQuery != '') {
+            $('#searchOption').val(optionIndex);
+            $('#inpListSearch').val(searchQuery);
+        }
+
+        $('#searchOption').on('change', function() {
+            $('#inpListSearch').val('');
+            setInputValueType();
+        })
+
+        function setInputValueType() {
+            let valueInputType = $('#searchOption').find(':selected').data('value-type');
+            $('#inpListSearch').attr('type', valueInputType);
+        }
+        setInputValueType();
+    </script>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SourceText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TranslatedText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSucceded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TranslationType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDateTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SourceText)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TranslatedText)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsSucceded)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TranslationType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDateTime)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
